@@ -1,3 +1,6 @@
+# ===================================
+# docker-compose.yml
+# ===================================
 version: '3.8'
 
 services:
@@ -14,6 +17,7 @@ services:
       - '--web.console.libraries=/etc/prometheus/console_libraries'
       - '--web.console.templates=/etc/prometheus/consoles'
       - '--web.enable-lifecycle'
+    # Only expose internally - no external port mapping needed
     ports:
       - "9090:9090"
     networks:
@@ -26,6 +30,7 @@ services:
       - ./blackbox.yml:/etc/blackbox/blackbox.yml
     command:
       - '--config.file=/etc/blackbox/blackbox.yml'
+    # Only expose internally - no external port mapping needed
     ports:
       - "9115:9115"
     networks:
