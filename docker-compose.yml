@@ -17,9 +17,9 @@ services:
       - '--web.console.libraries=/etc/prometheus/console_libraries'
       - '--web.console.templates=/etc/prometheus/consoles'
       - '--web.enable-lifecycle'
-    # Only expose internally - no external port mapping needed
+      - '--web.listen-address=0.0.0.0:9090'
     ports:
-      - "9090:9090"
+      - "0.0.0.0:9090:9090"
     networks:
       - monitoring
 
@@ -30,9 +30,9 @@ services:
       - ./blackbox.yml:/etc/blackbox/blackbox.yml
     command:
       - '--config.file=/etc/blackbox/blackbox.yml'
-    # Only expose internally - no external port mapping needed
+      - '--web.listen-address=0.0.0.0:9115'
     ports:
-      - "9115:9115"
+      - "0.0.0.0:9115:9115"
     networks:
       - monitoring
 
