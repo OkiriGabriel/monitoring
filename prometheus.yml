@@ -17,16 +17,15 @@ scrape_configs:
   - job_name: 'prometheus'
     static_configs:
       - targets: ['localhost:9090']
-  # Blackbox exporter for API monitoring
-  - job_name: 'blackbox'
+  # Blackbox exporter for API monitoring - GET requests
+  - job_name: 'blackbox_get'
     metrics_path: /probe
     params:
       module: [http_2xx]
     static_configs:
       - targets:
           - https://rider-api.fezdelivery.co
-          - https://rider-api.fezdelivery.co/health
-          # - https://your-riders-api.com/api/riders/status
+          # - https://rider-api.fezdelivery.co/health
     relabel_configs:
       - source_labels: [__address__]
         target_label: __param_target
@@ -34,6 +33,44 @@ scrape_configs:
         target_label: instance
       - target_label: __address__
         replacement: blackbox:9115
+      - target_label: method
+        replacement: GET
+
+  # Blackbox exporter for API monitoring - POST requests
+  - job_name: 'blackbox_post'
+    metrics_path: /probe
+    params:
+      module: [http_post_2xx]
+    static_configs:
+      - targets:
+          - https://rider-api.fezdelivery.co
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: __param_target
+      - source_labels: [__param_target]
+        target_label: instance
+      - target_label: __address__
+        replacement: blackbox:9115
+      - target_label: method
+        replacement: POST
+
+  # Blackbox exporter for API monitoring - PUT requests
+  - job_name: 'blackbox_put'
+    metrics_path: /probe
+    params:
+      module: [http_put_2xx]
+    static_configs:
+      - targets:
+          - https://rider-api.fezdelivery.co
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: __param_target
+      - source_labels: [__param_target]
+        target_label: instance
+      - target_label: __address__
+        replacement: blackbox:9115
+      - target_label: method
+        replacement: PUT
 
   # Blackbox exporter metrics endpoint
   - job_name: 'blackbox_exporter'

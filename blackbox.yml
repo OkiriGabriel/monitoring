@@ -20,6 +20,24 @@ modules:
         Content-Type: application/json
       body: '{"test": "true"}'
       valid_status_codes: [200, 201]
+      preferred_ip_protocol: "ip4"
+      follow_redirects: true
+      fail_if_ssl: false
+      fail_if_not_ssl: false
+      
+  http_put_2xx:
+    prober: http
+    timeout: 5s
+    http:
+      method: PUT
+      headers:
+        Content-Type: application/json
+      body: '{"test": "true"}'
+      valid_status_codes: [200, 201, 204]
+      preferred_ip_protocol: "ip4"
+      follow_redirects: true
+      fail_if_ssl: false
+      fail_if_not_ssl: false
       
   # http_with_auth:
   #   prober: http
